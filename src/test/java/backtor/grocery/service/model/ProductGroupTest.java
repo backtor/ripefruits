@@ -1,8 +1,9 @@
 package backtor.grocery.service.model;
 
-import junit.framework.Test;
+import org.junit.Test;
+
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  * Tests total calculation in product group.
@@ -14,13 +15,10 @@ public class ProductGroupTest extends TestCase {
         super(testName);
     }
 
-    public static Test suite() {
-        return new TestSuite(ProductGroupTest.class);
-    }
-
     /**
      * Rigorous Test :-)
      */
+    @Test
     public void testTotalNoProducts()
     {
     	ProductGroup group = ProductGroup.create();
@@ -28,6 +26,7 @@ public class ProductGroupTest extends TestCase {
         assertEquals("Incorrect total", Money.ZERO, group.getTotalUnitPrice());
     }
  
+    @Test
     public void testTotalOneProduct() {
     	final int TEST_PENCE = 120;
     	Money unitPrice = Money.fromPence(TEST_PENCE);
@@ -37,6 +36,7 @@ public class ProductGroupTest extends TestCase {
     	assertEquals("Incorrect total", unitPrice, group.getTotalUnitPrice());	
     }
     
+    @Test
     public void testTotalTwoProducts() {
     	final int TEST_PENCE_1 = 120;
     	Money unitPrice1 = Money.fromPence(TEST_PENCE_1);
