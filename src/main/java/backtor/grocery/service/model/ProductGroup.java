@@ -1,6 +1,7 @@
 package backtor.grocery.service.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,6 +43,15 @@ public class ProductGroup {
 		Money total = products.stream().map(Product::getUnitPrice).reduce(Money.ZERO, (a, b) -> a.add(b));
 		
 		return total;
+	}
+	
+	/**
+	 * Returns the groups products.
+	 * @return An unmodifiable list of the groups products so the list cannot be modified outside of the ProductGroup. 
+	 * If used more we could create a copy. 
+	 */
+	public List<Product> getProducts() {
+		return Collections.unmodifiableList(products);
 	}
 	
 	public static ProductGroup create() {

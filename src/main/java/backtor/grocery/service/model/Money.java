@@ -1,5 +1,8 @@
 package backtor.grocery.service.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Defintion of money borrowed from Kevin Rutherford. Used as does not couple service to underlying primitives used to 
  * represent money. This allows the primitives to change without affecting how the program interacts with it. Currency not
@@ -9,6 +12,8 @@ package backtor.grocery.service.model;
  */
 public class Money {
 	  public static final Money ZERO = new Money(0);
+	  public static final BigDecimal PENCE_IN_POUND = new BigDecimal(100);
+	  
 	  private int pence;
 	 
 	  private Money(int pence) {
@@ -23,6 +28,21 @@ public class Money {
 	    return new Money(pence + other.pence);
 	  }
 	 
+	  public int toPence() {
+		  return pence;
+	  }
+	  
+	  /** 
+	   * Returns Pounds and pence represented by this FileSize.
+	   * @return Pounds and pence represented by this FileSize, rounded to 2 decimal places.
+	   */
+	  public BigDecimal toPoundsAndPence() {
+		  BigDecimal poundsAndPence = new BigDecimal(pence).divide(PENCE_IN_POUND);
+		  poundsAndPence = poundsAndPence.setScale(2, RoundingMode.HALF_UP);
+
+		  return poundsAndPence;
+	  }
+	  
 	  @Override
 	  public boolean equals(Object other) {
 	    Money m = (Money) other;
