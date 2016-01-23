@@ -13,7 +13,7 @@ import backtor.grocery.service.model.Product;
 public class ProductForJsonTest {
 
 	public static final String TITLE = "a title";
-	public static final String DESCRIPTION = "a title";
+	public static final String DESCRIPTION = "a description";
 	
 	@Test
 	public void testProductMappedToJsonProduct() {
@@ -21,7 +21,7 @@ public class ProductForJsonTest {
 		ProductForJson pjson = ProductForJson.createProductForJson(p);
 		
 		assertEquals("Title mismatch", TITLE, pjson.title);
-		assertEquals("Filesize mismatch", "1.0kb", pjson.size);
+		assertEquals("Filesize mismatch", "1.0kb", pjson.sizeInKb);
 		assertEquals("Money mismatch", new BigDecimal("1.67"), pjson.unitPrice);
 		assertEquals("Description mismatch", DESCRIPTION, pjson.description);
 	}

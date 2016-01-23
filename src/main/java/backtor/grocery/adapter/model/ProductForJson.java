@@ -9,7 +9,9 @@ import backtor.grocery.service.model.Product;
 public class ProductForJson {
 	
 	public String title = null;
-	public String size = null;
+
+	@JsonProperty("size")
+	public String sizeInKb = null;
 	
 	@JsonProperty("unit_price")
 	public BigDecimal unitPrice = null;
@@ -20,7 +22,7 @@ public class ProductForJson {
 		ProductForJson pjson = new ProductForJson();
 		
 		pjson.title = p.getTitle();
-		pjson.size = p.getSize().toKiloBytes() + "kb";
+		pjson.sizeInKb = p.getSize().toKiloBytes() + "kb";
 		pjson.unitPrice = p.getUnitPrice().toPoundsAndPence();
 		pjson.description = p.getDescription();
 		

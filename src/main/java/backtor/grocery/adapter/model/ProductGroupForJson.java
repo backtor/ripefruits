@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
 /**
@@ -16,10 +17,14 @@ public class ProductGroupForJson {
 	
 	public BigDecimal total = null;
 	
-	public static ProductGroupForJson createProductForJson(ProductGroup pg) {
+	public static ProductGroupForJson createProductGroupForJson(ProductGroup productGroup) {
 		ProductGroupForJson pjson = new ProductGroupForJson();
 		
-		pjson.total = pg.getTotalUnitPrice().toPoundsAndPence();
+		for (Product p : productGroup.getProducts()) {
+			pjson.results.add(ProductForJson.createProductForJson(p));
+		}
+		
+		pjson.total = productGroup.getTotalUnitPrice().toPoundsAndPence();
 		
 		return pjson;
 	}
