@@ -16,11 +16,11 @@ public class FileSize {
 	  private int bytes;
 	 
 	  private FileSize(int bytes) {
-	    this.bytes = bytes;
+		  this.bytes = bytes;
 	  }
 	 
 	  public static FileSize fromBytes(int bytes) {
-	    return new FileSize(bytes);
+		  return new FileSize(bytes);
 	  }
 	  
 	  /** 
@@ -36,13 +36,16 @@ public class FileSize {
 	 
 	  @Override
 	  public boolean equals(Object other) {
-	    FileSize fs = (FileSize) other;
-	    return bytes == fs.bytes;
+		  if (other == null) { return false; }
+		  if (!(other instanceof FileSize)) { return false; }
+
+		  FileSize fs = (FileSize) other;
+		  return bytes == fs.bytes;
 	  }
 	 
 	  @Override
 	  public int hashCode() {
-	    return new Integer(bytes).hashCode();
+		  return new Integer(bytes).hashCode();
 	  }
 	  
 	  @Override
