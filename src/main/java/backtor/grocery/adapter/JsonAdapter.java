@@ -1,5 +1,14 @@
 package backtor.grocery.adapter;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import backtor.grocery.adapter.model.ProductGroupForJson;
 import backtor.grocery.service.api.ProductFetcher;
 import backtor.grocery.service.model.ProductGroup;
 
@@ -20,10 +29,15 @@ public class JsonAdapter {
 		this.fetcher = fetcher; 
 	}
 
-	public String fetchProductsAsJson() {
+	public String fetchProductsAsJson() throws JsonGenerationException, JsonMappingException, IOException {
 		ProductGroup results = fetcher.fetchProducts();
+		ProductGroupForJson resultsForJson = ProductGroupForJson.createProductGroupForJson(results);
+		ObjectMapper jsonMapper = new ObjectMapper();
+		Writer writer = new StringWriter();
 		
-		return "{\"results\": [], \"total\": 0.00}";
+		jsonMapper.writeValue(writer, resultsForJson);
+		
+		return writer.toString();
 	}
 	
 }

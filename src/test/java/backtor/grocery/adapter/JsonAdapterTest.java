@@ -1,9 +1,12 @@
 package backtor.grocery.adapter;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +22,18 @@ import backtor.grocery.service.model.FileSize;
 import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
-import junit.framework.TestCase;
 
-public class JsonAdapterTest extends TestCase {
+public class JsonAdapterTest {
 	public static final String TITLE_1 = "Product Title 1";
 	public static final FileSize FILE_SIZE_1 = FileSize.fromBytes(123);
 	public static final Money UNIT_PRICE_1 = Money.fromPence(133);
 	public static final String DECRIPTION_1 = "Product Description 1";
+	
+	public static final String TITLE_2 = "Product Title 2";
+	public static final FileSize FILE_SIZE_2 = FileSize.fromBytes(1243);
+	public static final Money UNIT_PRICE_2 = Money.fromPence(949);
+	public static final String DECRIPTION_2 = "Product Description 2";
+
 	
 	@Test
 	public void testJsonWhenNoProducts() throws JsonProcessingException, IOException {
@@ -56,6 +64,22 @@ public class JsonAdapterTest extends TestCase {
 		assertEquals("Mismatched JSON", expected, responseAsMap);
 
 	}
+	
+	@Test
+	public void testJsonWhenTwoProducts() throws JsonParseException, JsonMappingException, IOException {
+		ProductGroup productGroup = createProductGroupWithOneProduct();
+		Product product2 = Product.create(TITLE_2, FILE_SIZE_2, UNIT_PRICE_2, DECRIPTION_2);
+		productGroup.addProduct(product2);
+		ProductFetcher fetcher = ProductFetcherStub.create(productGroup);
+		JsonAdapter ja = new JsonAdapter(fetcher);
+		
+		Map<String, Object> expected = createMapFromProductGroup(productGroup);
+
+		ObjectMapper jsonMapper = new ObjectMapper();
+		Map<?,?> responseAsMap = jsonMapper.readValue(ja.fetchProductsAsJson(), Map.class);
+		assertEquals("Mismatched JSON", expected, responseAsMap);
+
+	}
 
 	private ProductGroup createProductGroupWithOneProduct() {
 		ProductGroup productGroup = ProductGroup.create();
@@ -66,7 +90,7 @@ public class JsonAdapterTest extends TestCase {
 	}
 	
 	private Map<String, Object> createMapFromProductGroup(ProductGroup productGroup) {
-		Map<String, Object> m = new HashMap<>();
+		Map<String, Object> m = new LinkedHashMap<>();
 		List<Map<String,Object>> results = new ArrayList<>(); 
 		
 		List<Product> products = productGroup.getProducts();
@@ -76,16 +100,16 @@ public class JsonAdapterTest extends TestCase {
 		}
 		
 		m.put("results", results);
-		m.put("total", productGroup.getTotalUnitPrice().toPoundsAndPence());
+		m.put("total", new Double(productGroup.getTotalUnitPrice().toPoundsAndPence().doubleValue()));
 		
 		return m;
 	}
 	
 	private Map<String, Object> createMapFromProduct(Product product) {
-		Map<String, Object> m = new HashMap<>();
+		Map<String, Object> m = new LinkedHashMap<>();
 		m.put("title", product.getTitle());
 		m.put("size", product.getSize().toKiloBytes() + "kb");
-		m.put("unit_price", product.getUnitPrice().toPoundsAndPence());
+		m.put("unit_price", new Double(product.getUnitPrice().toPoundsAndPence().doubleValue()));
 		m.put("description", product.getDescription());
 		return m;
 	}
