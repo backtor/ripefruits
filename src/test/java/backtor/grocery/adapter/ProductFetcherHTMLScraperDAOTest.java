@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import backtor.grocery.service.model.FileSize;
+import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 
 public class ProductFetcherHTMLScraperDAOTest {
@@ -26,6 +28,17 @@ public class ProductFetcherHTMLScraperDAOTest {
 		List<Product> products = dao.fetchProducts();
 		
 		assertEquals("Incorrect number of products", EXPECTED_NUMBER_OF_PRODUCTS, products.size());
+	}
+
+	@Test
+	public void testScrapeStubFileHasCorrectFirstProduct() {
+		ProductFetcherHTMLScraperDAO dao =  new ProductFetcherHTMLScraperDAO();
+		List<Product> products = dao.fetchProducts();
+		
+		Product expectedFirstProduct = Product.create("Sainsbury's Apricot Ripe & Ready x5", FileSize.ZERO, Money.fromPence(350), null);
+		Product actualFirstProduct = products.get(0);
+		
+		assertEquals("First product mismatch", expectedFirstProduct, actualFirstProduct);
 	}
 
 }

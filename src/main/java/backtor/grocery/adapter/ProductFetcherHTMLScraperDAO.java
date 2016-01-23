@@ -16,7 +16,6 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 		
 		for(int i = 0; i < 7; i++) { products.add(Product.create("title", FileSize.ZERO, Money.ZERO, "description")); }
 		return products;
-
 	}
 
 }
