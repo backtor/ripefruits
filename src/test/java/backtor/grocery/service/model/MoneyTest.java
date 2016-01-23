@@ -73,7 +73,7 @@ public class MoneyTest {
 		Money mx = Money.fromPence(1235);
 		Money my = Money.fromPence(1235);
 		
-		assertEquals("Should not be equal()", mx, my);
+		assertEquals("Should be equal", mx, my);
 		assertEquals("Hascode should be equal", mx.hashCode(), my.hashCode());
 	}
 

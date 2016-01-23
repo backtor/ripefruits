@@ -49,4 +49,26 @@ public class Product {
 	public static Product create(String title, FileSize size, Money unitPrice, String description) {
 		return new Product(title, size, unitPrice, description);
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) { return false; }
+		if (!(other instanceof Product)) { return false; }
+		Product p = (Product) other;
+		
+		return getTitle().equals(p.getTitle()) 
+				&& getSize().equals(p.getSize())
+				&& getUnitPrice().equals(p.getUnitPrice())
+				&& getDescription().equals(p.getDescription());
+  }
+ 
+	@Override
+	public int hashCode() {
+		return getTitle().hashCode();
+	}
+	  
+	@Override  
+	public String toString() {
+		return String.format("title: '%s', fileSize: '%s', unitPrice: '%s', description: '%s'", title, size, unitPrice, description);
+	}
 }
