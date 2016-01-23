@@ -45,13 +45,15 @@ public class Money {
 	  
 	  @Override
 	  public boolean equals(Object other) {
-	    Money m = (Money) other;
-	    return pence == m.pence;
+		  if (other == null) { return false; }
+		  if (!(other instanceof Money)) { return false; }
+		  Money m = (Money) other;
+		  return pence == m.pence;
 	  }
 	 
 	  @Override
 	  public int hashCode() {
-	    return new Integer(pence).hashCode();
+		  return new Integer(pence).hashCode();
 	  }
 	  
 	  @Override
