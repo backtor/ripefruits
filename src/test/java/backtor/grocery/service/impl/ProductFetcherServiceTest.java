@@ -20,7 +20,7 @@ public class ProductFetcherServiceTest {
 		ProductFetcherServiceImpl service = new ProductFetcherServiceImpl(dao);
 		
 		ProductGroup pg = service.fetchProducts();
-		
+
 		assertNotNull("No product group returned by service", pg);
 		assertEquals("Totals mismatch", stubProductGroup.getTotalUnitPrice(), pg.getTotalUnitPrice());
 		assertEquals("Products mismatch", stubProductGroup.getProducts(), pg.getProducts());

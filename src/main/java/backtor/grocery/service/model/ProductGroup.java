@@ -21,6 +21,10 @@ public class ProductGroup {
 		products = new ArrayList<Product>();
 	}
 	
+	private ProductGroup(List<Product> products) {
+		this.products = products;
+	}
+
 	/**
 	 * Adds product to the group. 
 	 * 
@@ -57,4 +61,14 @@ public class ProductGroup {
 	public static ProductGroup create() {
 		return new ProductGroup();
 	}
+
+	/**
+	 * Returns a group of products.
+	 * @param products Products to seed the group with. Quicker than using {@link #add}
+	 * @return A new ProductGroup
+	 */
+	public static ProductGroup create(List<Product> products) {
+		return new ProductGroup(products);
+	}
+
 }

@@ -1,19 +1,27 @@
 package backtor.grocery.service.impl;
 
+import java.util.List;
+
 import backtor.grocery.service.api.ProductFetcher;
 import backtor.grocery.service.api.ProductFetcherDAO;
+import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
 public class ProductFetcherServiceImpl implements ProductFetcher {
 
-	public ProductFetcherServiceImpl(ProductFetcherDAO dao) {
-		// TODO Auto-generated constructor stub
+	ProductFetcherDAO adapter = null;
+	
+	public ProductFetcherServiceImpl(ProductFetcherDAO adapter) {
+		this.adapter = adapter;
 	}
 
 	@Override
 	public ProductGroup fetchProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = adapter.fetchProducts();
+		// applies business logic by combining into a group. DAO only cares about Products.
+		ProductGroup productGroup = ProductGroup.create(products);
+		
+		return productGroup;
 	}
 
 }
