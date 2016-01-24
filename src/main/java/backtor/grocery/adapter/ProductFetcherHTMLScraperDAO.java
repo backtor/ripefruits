@@ -67,27 +67,10 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 	
 	private FileSize fetchHTMLSize(final String href) throws IOException, URISyntaxException {
 		URL url = new URL(href);
-		FileSize fs = null;
-		
-		if ("file".equals(url.getProtocol())) {
-			fs = fetchHTMLoverFilesystemSize(url);
-		} else {
-			fs = fetchHTMLoverHTTPSize(url);
-		}
-		
-		return fs;
-	}
-
-	private FileSize fetchHTMLoverFilesystemSize(final URL url) throws IOException, URISyntaxException {
-	    // If URL a file then just check the length.
-		File file = new File(url.toURI());
-	    return FileSize.fromBytes(file.length());
-	}
-	
-	private FileSize fetchHTMLoverHTTPSize(final URL url) throws IOException {
 	    // Use HTTP HEAD request to determine content size, rather than bring back entire document. 
 		HttpURLConnection conn = null;
-	    try {
+	   
+		try {
 	        conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("HEAD");
 	        conn.getInputStream();
@@ -113,25 +96,10 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 		return Money.fromPence(new Integer(penceString));
 	}
 	
-	/**
-	 * To enable testing with stub-data. Allows us to get Documents with File URL's which Jsoup not like by default.
-	 * @param url URL location of HTML document.
-	 * @return Document object representing HTML.
-	 * @throws URISyntaxException If URL is not URI compliant.
-	 * @throws IOException If the HTML cannot be read for some reason..
-	 */
 	private Document getDocument(URL url) throws URISyntaxException, IOException {
-		//System.out.println("URL: " + url.toString());
-		Document doc = null;
-		if ("file".equals(url.getProtocol())) {
-			File sourceFile = new File(sourceUrl.toURI());
-			doc = Jsoup.parse(sourceFile, "UTF-8");
-		} else {
-			doc = Jsoup.parse(url, getTimeoutInMs());
-		}
-		
-		return doc;
+		return Jsoup.parse(url, getTimeoutInMs());
 	}
+
 	private int getTimeoutInMs() {
 		return DEFAULT_TIMEOUT_IN_MS;
 	}
