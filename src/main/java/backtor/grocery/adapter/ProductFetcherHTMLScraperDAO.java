@@ -1,6 +1,5 @@
 package backtor.grocery.adapter;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
@@ -13,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import backtor.grocery.adapter.model.HTMLScrapeFailedException;
 import backtor.grocery.service.api.ProductFetcherDAO;
 import backtor.grocery.service.model.FileSize;
 import backtor.grocery.service.model.Money;
@@ -44,8 +44,7 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 			}
 			
 		} catch (IOException | URISyntaxException e) {
-			// TODO Add try catch
-			e.printStackTrace();
+			throw new HTMLScrapeFailedException("Unable to scrape HTML", e);
 		}
 		
 		return products;
