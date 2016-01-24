@@ -7,6 +7,7 @@ import java.io.Writer;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import backtor.grocery.adapter.model.ProductGroupForJson;
 import backtor.grocery.service.api.ProductFetcher;
@@ -35,6 +36,7 @@ public class JsonAdapter {
 		ObjectMapper jsonMapper = new ObjectMapper();
 		Writer writer = new StringWriter();
 		
+		jsonMapper.configure(SerializationFeature.INDENT_OUTPUT, true); //prettify output as per exercise example.
 		jsonMapper.writeValue(writer, resultsForJson);
 		
 		return writer.toString();
