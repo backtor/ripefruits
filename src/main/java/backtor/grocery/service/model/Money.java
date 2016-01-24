@@ -17,15 +17,15 @@ public class Money {
 	  private int pence;
 	 
 	  private Money(int pence) {
-	    this.pence = pence;
+		  this.pence = pence;
 	  }
 	 
 	  public static Money fromPence(int pence) {
-	    return new Money(pence);
+		  return new Money(pence);
 	  }
 	 
 	  public Money add(Money other) {
-	    return new Money(pence + other.pence);
+		  return new Money(pence + other.pence);
 	  }
 	 
 	  public int toPence() {
