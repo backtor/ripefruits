@@ -9,7 +9,7 @@ import backtor.grocery.service.model.ProductGroup;
  */
 public interface ProductFetcher {
 	/**
-	 * Fetch a group of products. Note: Currently no identifiers passed in as surplus to current requirements.
+	 * Fetch a group of products. Note: Currently no identifiers arguments as surplus to current requirements.
 	 * @return A product group. If no products this group will be empty, never <code>null</code>.
 	 */
 	public ProductGroup fetchProducts();

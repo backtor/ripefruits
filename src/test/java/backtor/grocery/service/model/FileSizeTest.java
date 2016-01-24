@@ -6,6 +6,11 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
+/**
+ * Checks behaviour of the FileSize POJO.
+ * @author Dave Watson
+ *
+ */
 public class FileSizeTest {
 
 	@Test

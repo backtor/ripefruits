@@ -11,6 +11,11 @@ import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
+/**
+ * Tests that JSON Product Group POJO correctly sets up a ProductGroup for JSON serialisation.
+ * @author Dave Watson
+ *
+ */
 public class ProductGroupForJsonTest {
 	
 	@Test

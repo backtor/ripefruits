@@ -6,6 +6,11 @@ import backtor.grocery.service.api.ProductFetcherDAO;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
+/**
+ * Helper class. Fake DAO so tests can control responses.
+ * @author Dave Watson.
+ *
+ */
 public class ProductFetcherDAOStub implements ProductFetcherDAO {
 
 	ProductGroup productGroup = null; 

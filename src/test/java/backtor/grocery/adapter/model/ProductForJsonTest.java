@@ -10,6 +10,11 @@ import backtor.grocery.service.model.FileSize;
 import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 
+/**
+ * Tests that JSON Product POJO correctly sets up a Product for JSON serialisation.
+ * @author Dave Watson
+ *
+ */
 public class ProductForJsonTest {
 
 	public static final String TITLE = "a title";

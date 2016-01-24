@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import backtor.grocery.service.model.Product;
 
+/**
+ * Used to serialise a product into JSON. This stops encoding leaking into the business model.
+ * @author Dave Watson
+ *
+ */
 public class ProductForJson {
 	
 	public String title = null;

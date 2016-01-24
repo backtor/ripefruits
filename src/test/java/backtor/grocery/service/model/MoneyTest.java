@@ -6,7 +6,11 @@ import static org.junit.Assert.assertNotEquals;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
+/**
+ * Checks behaviour of the Money POJO.
+ * @author Dave Watson
+ *
+ */
 public class MoneyTest {
 
 	@Test

@@ -11,6 +11,12 @@ import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
+/**
+ * Checks the Product Fetcher service correctly creates product groups based upon what a DAO
+ * gives it.
+ * @author Dave Watson
+ *
+ */
 public class ProductFetcherServiceTest {
 
 	@Test

@@ -10,6 +10,7 @@ import backtor.grocery.service.impl.ProductFetcherServiceImpl;
 
 /**
  * IoC container that binds the application together. Could use spring for bigger projects.
+ * @author Dave Watson
  */
 public class AppFactory {
 

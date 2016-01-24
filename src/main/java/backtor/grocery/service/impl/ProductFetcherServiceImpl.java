@@ -7,6 +7,12 @@ import backtor.grocery.service.api.ProductFetcherDAO;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
+/**
+ * Service (middle of the hexagon) which takes products from a DAO and placed into a ProductGroup.
+ * This allows for total cost calculation.
+ * @author Dave Watson
+ *
+ */
 public class ProductFetcherServiceImpl implements ProductFetcher {
 
 	ProductFetcherDAO adapter = null;

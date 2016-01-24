@@ -23,6 +23,11 @@ import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 import backtor.grocery.service.model.ProductGroup;
 
+/**
+ * Tests JSON serialisation of Product Groups. 
+ * @author Dave Watson
+ *
+ */
 public class JsonAdapterTest {
 	public static final String TITLE_1 = "Product Title 1";
 	public static final FileSize FILE_SIZE_1 = FileSize.fromBytes(123);

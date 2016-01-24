@@ -5,6 +5,11 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+/**
+ * Checks behaviour of the Product POJO.
+ * @author Dave Watson
+ *
+ */
 public class ProductTest {
 	public final static Product PRODUCT_1 = Product.create("title 1", FileSize.fromBytes(1033), Money.fromPence(167), "desc 1");
 	public final static Product PRODUCT_2 = Product.create("title 2", FileSize.fromBytes(1032), Money.fromPence(253), "desc 2");
