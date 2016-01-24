@@ -13,6 +13,8 @@ git clone https://github.com/backtor/ripefruits.git
 cd ripefruits
 mvn install
 ```
+Changes are also built and tested on [Travis CI](https://travis-ci.org/backtor/ripefruits).
+
 ## Run it
 Type:
 ```
