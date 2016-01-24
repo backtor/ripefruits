@@ -3,8 +3,7 @@ package backtor.grocery.adapter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -14,11 +13,17 @@ import backtor.grocery.service.model.FileSize;
 import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 
-public class ProductFetcherHTMLScraperDAOTest {
+/**
+ * This is an integration test checking we can scrape against an HTTP endpoint. Note: not great being in with the unit tests but
+ * would take time to factor out. 
+ * @author Dave Watson
+ *
+ */
+public class ProductFetcherHTMLScraperDAOIntegrationTest {
 	public final static int EXPECTED_NUMBER_OF_PRODUCTS = 7;
 	
 	@Test
-	public void testScrapeStubFileNotNull() throws URISyntaxException {
+	public void testScrapeStubFileNotNull() throws MalformedURLException {
 		ProductFetcherHTMLScraperDAO dao =  createDAOWithMockData();
 		List<Product> products = dao.fetchProducts();
 		
@@ -26,7 +31,7 @@ public class ProductFetcherHTMLScraperDAOTest {
 	}
 
 	@Test
-	public void testScrapeStubFileHasCorrectProductCount() throws URISyntaxException {
+	public void testScrapeStubFileHasCorrectProductCount() throws MalformedURLException {
 		ProductFetcherHTMLScraperDAO dao =  createDAOWithMockData();
 		List<Product> products = dao.fetchProducts();
 		
@@ -34,7 +39,7 @@ public class ProductFetcherHTMLScraperDAOTest {
 	}
 
 	@Test
-	public void testScrapeStubFileHasCorrectFirstProduct() throws URISyntaxException {
+	public void testScrapeStubFileHasCorrectFirstProduct() throws MalformedURLException {
 		ProductFetcherHTMLScraperDAO dao =  createDAOWithMockData();
 		List<Product> products = dao.fetchProducts();
 		
@@ -44,8 +49,8 @@ public class ProductFetcherHTMLScraperDAOTest {
 		assertEquals("First product mismatch", expectedFirstProduct, actualFirstProduct);
 	}
 
-	private ProductFetcherHTMLScraperDAO createDAOWithMockData() throws URISyntaxException {
-		URL sourceUrl = getClass().getResource("/stubbeddata/stubbedproducts.html");
+	private ProductFetcherHTMLScraperDAO createDAOWithMockData() throws MalformedURLException {
+		URL sourceUrl = new URL("http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html");
 		ProductFetcherHTMLScraperDAO dao =  new ProductFetcherHTMLScraperDAO(sourceUrl);
 		
 		return dao;

@@ -65,11 +65,29 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 		return Product.create(productText, fileSize, unitPrice, description);
 	}
 	
-	private FileSize fetchHTMLSize(final String href) throws IOException {
+	private FileSize fetchHTMLSize(final String href) throws IOException, URISyntaxException {
+		URL url = new URL(href);
+		FileSize fs = null;
+		
+		if ("file".equals(url.getProtocol())) {
+			fs = fetchHTMLoverFilesystemSize(url);
+		} else {
+			fs = fetchHTMLoverHTTPSize(url);
+		}
+		
+		return fs;
+	}
+
+	private FileSize fetchHTMLoverFilesystemSize(final URL url) throws IOException, URISyntaxException {
+	    // If URL a file then just check the length.
+		File file = new File(url.toURI());
+	    return FileSize.fromBytes(file.length());
+	}
+	
+	private FileSize fetchHTMLoverHTTPSize(final URL url) throws IOException {
 	    // Use HTTP HEAD request to determine content size, rather than bring back entire document. 
 		HttpURLConnection conn = null;
 	    try {
-	    	URL url = new URL(href);
 	        conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("HEAD");
 	        conn.getInputStream();
@@ -103,6 +121,7 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 	 * @throws IOException If the HTML cannot be read for some reason..
 	 */
 	private Document getDocument(URL url) throws URISyntaxException, IOException {
+		//System.out.println("URL: " + url.toString());
 		Document doc = null;
 		if ("file".equals(url.getProtocol())) {
 			File sourceFile = new File(sourceUrl.toURI());

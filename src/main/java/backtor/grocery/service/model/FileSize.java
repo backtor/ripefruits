@@ -13,13 +13,13 @@ public class FileSize {
 	  public static final FileSize ZERO = new FileSize(0);
 	  public static final BigDecimal BYTES_IN_A_KILOBYTE = new BigDecimal(1024);
 	  
-	  private int bytes;
+	  private long bytes;
 	 
-	  private FileSize(int bytes) {
+	  private FileSize(long bytes) {
 		  this.bytes = bytes;
 	  }
 	 
-	  public static FileSize fromBytes(int bytes) {
+	  public static FileSize fromBytes(long bytes) {
 		  return new FileSize(bytes);
 	  }
 	  
@@ -45,12 +45,12 @@ public class FileSize {
 	 
 	  @Override
 	  public int hashCode() {
-		  return new Integer(bytes).hashCode();
+		  return new Long(bytes).hashCode();
 	  }
 	  
 	  @Override
 	  public String toString() {
-		  return new Integer(bytes).toString() + " bytes";
+		  return new Long(bytes).toString() + " bytes";
 	  }
 
 	}
