@@ -3,6 +3,7 @@ package backtor.grocery.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +19,22 @@ import backtor.grocery.service.model.Money;
 import backtor.grocery.service.model.Product;
 
 public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
-	private File sourceFile = null;
+	/**
+	 * Default time to wait for response for page to scrape.
+	 */
+	public static int DEFAULT_TIMEOUT_IN_MS = 7000; 
 	
-	public ProductFetcherHTMLScraperDAO(File source) {
-		sourceFile = source;
+	private URL sourceUrl = null;
+	
+	public ProductFetcherHTMLScraperDAO(URL source) {
+		sourceUrl = source;
 	}
 
 	@Override
 	public List<Product> fetchProducts() {
 		List<Product> products = new ArrayList<Product>();
 		try {
-			Document document = Jsoup.parse(sourceFile, "UTF-8");
+			Document document = getDocument(sourceUrl);
 			Elements productElements = document.select("div.product ");
 			
 			//TODO: What would the lambda look like?
@@ -37,15 +43,15 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 				products.add(product);
 			}
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException | URISyntaxException e) {
+			// TODO Add try catch
 			e.printStackTrace();
 		}
 		
 		return products;
 	}
 
-	private Product createProductFromElement(Element productElement) throws IOException {
+	private Product createProductFromElement(Element productElement) throws IOException, URISyntaxException {
 		Element productInfo = productElement.select("div.productInfo h3 a").first();	
 		String productHref = productInfo.attr("href");
 		String productText = productInfo.text();
@@ -53,15 +59,15 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 		Element pricePerUnitElement = productElement.select("p.pricePerUnit").first();
 		String priceText = pricePerUnitElement.text();
 		Money unitPrice = priceTextToMoney(priceText);
-		FileSize fileSize = getHTMLSize(productHref);
+		FileSize fileSize = fetchHTMLSize(productHref);
+		String description = fetchDescription(productHref);
 
-		//TODO: try/catch to deal with malformation?
-		//TODO: process href to get description. -> need sample file.
-		return Product.create(productText, fileSize, unitPrice, "TODO");
+		return Product.create(productText, fileSize, unitPrice, description);
 	}
 	
-	private FileSize getHTMLSize(final String href) throws IOException {
-	    HttpURLConnection conn = null;
+	private FileSize fetchHTMLSize(final String href) throws IOException {
+	    // Use HTTP HEAD request to determine content size, rather than bring back entire document. 
+		HttpURLConnection conn = null;
 	    try {
 	    	URL url = new URL(href);
 	        conn = (HttpURLConnection) url.openConnection();
@@ -72,11 +78,42 @@ public class ProductFetcherHTMLScraperDAO implements ProductFetcherDAO {
 	        conn.disconnect();
 	    }
 	}
-	 
+	
+	private String fetchDescription(final String href) throws IOException, URISyntaxException {
+		URL url = new URL(href);
+		Document document = getDocument(url);
+		// if structure changes prone to NullPointerExceptions.
+		Element productDescriptionElement = document.select("h3.productDataItemHeader + div.productText > p").first();
+		
+		return productDescriptionElement.text();
+	}
+	
 	private Money priceTextToMoney(String priceText) {
 		// strips out all non numerical characters, leaving price in pence which can be converted to an integer and made into Money!
 		String penceString = priceText.replaceAll("[^0-9]", "");
 		
 		return Money.fromPence(new Integer(penceString));
+	}
+	
+	/**
+	 * To enable testing with stub-data. Allows us to get Documents with File URL's which Jsoup not like by default.
+	 * @param url URL location of HTML document.
+	 * @return Document object representing HTML.
+	 * @throws URISyntaxException If URL is not URI compliant.
+	 * @throws IOException If the HTML cannot be read for some reason..
+	 */
+	private Document getDocument(URL url) throws URISyntaxException, IOException {
+		Document doc = null;
+		if ("file".equals(url.getProtocol())) {
+			File sourceFile = new File(sourceUrl.toURI());
+			doc = Jsoup.parse(sourceFile, "UTF-8");
+		} else {
+			doc = Jsoup.parse(url, getTimeoutInMs());
+		}
+		
+		return doc;
+	}
+	private int getTimeoutInMs() {
+		return DEFAULT_TIMEOUT_IN_MS;
 	}
 }

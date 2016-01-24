@@ -38,7 +38,7 @@ public class ProductFetcherHTMLScraperDAOTest {
 		ProductFetcherHTMLScraperDAO dao =  createDAOWithMockData();
 		List<Product> products = dao.fetchProducts();
 		
-		Product expectedFirstProduct = Product.create("Sainsbury's Apricot Ripe & Ready x5", FileSize.ZERO, Money.fromPence(350), null);
+		Product expectedFirstProduct = Product.create("Sainsbury's Apricot Ripe & Ready x5", FileSize.fromBytes(39185), Money.fromPence(350), "Apricots");
 		Product actualFirstProduct = products.get(0);
 		
 		assertEquals("First product mismatch", expectedFirstProduct, actualFirstProduct);
@@ -46,8 +46,7 @@ public class ProductFetcherHTMLScraperDAOTest {
 
 	private ProductFetcherHTMLScraperDAO createDAOWithMockData() throws URISyntaxException {
 		URL sourceUrl = getClass().getResource("/stubbeddata/stubbedproducts.html");
-		File sourceFile = new File(sourceUrl.toURI());
-		ProductFetcherHTMLScraperDAO dao =  new ProductFetcherHTMLScraperDAO(sourceFile);
+		ProductFetcherHTMLScraperDAO dao =  new ProductFetcherHTMLScraperDAO(sourceUrl);
 		
 		return dao;
 	}
